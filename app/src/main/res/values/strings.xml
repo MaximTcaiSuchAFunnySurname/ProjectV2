@@ -6,5 +6,16 @@
     <string name="login_btn">Log in</string>
     <string name="signup_btn">Sign up</string>
     <string name="create_btn">Create</string>
+    <string-array name="folders">
+        <item>
+            home
+        </item>
+        <item>
+            work
+        </item>
+        <item>
+            school
+        </item>
+    </string-array>
 
 </resources>

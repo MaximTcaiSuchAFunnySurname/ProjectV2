@@ -2,6 +2,8 @@ package com.example.maxim.protov40.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.util.ILogin;
+import com.example.maxim.protov40.util.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class LogInFragment extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class LogInFragment extends Fragment implements View.OnClickListener, ILogin {
     private EditText loginEdit, passwordEdit;
     private Button loginButton, signUpButton;
     String username, password;
+    private FragmentTransaction trans;
+    private DatabaseReference database;
+    private List<User> userList;
+    Bundle bundle;
 
     public LogInFragment() {
 
@@ -32,8 +49,28 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         passwordEdit = (EditText) view.findViewById(R.id.password_edit);
         loginButton = (Button) view.findViewById(R.id.login_btn);
         signUpButton = (Button) view.findViewById(R.id.signup_btn);
+        database = FirebaseDatabase.getInstance().getReference();
         username = "";
         password = "";
+        userList = new ArrayList<>();
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot elem : dataSnapshot.getChildren()
+                        ) {
+                    HashMap map = (HashMap) elem.getValue();
+                    HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
+                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), new ArrayList<String>());
+                    userList.add(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        trans = getFragmentManager().beginTransaction();
         loginButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
         return view;
@@ -43,21 +80,41 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
-                //TODO: Замена на FireBase
-                if (username.equals(loginEdit.getText().toString())
-                        && password.equals(passwordEdit.getText().toString()))
+             if (login(loginEdit.getText().toString(), passwordEdit.getText().toString())) {
+//                    bundle = new Bundle();
+//                    bundle.putString("login", loginEdit.getText().toString());
                     Toast.makeText(getActivity(), "Congratulations, you have logged in", Toast.LENGTH_SHORT).show();
-                else {
+                    trans.replace(R.id.frame, new FoldersFragment());
+                    trans.commit();
+                } else {
                     Toast.makeText(getActivity(), "Error in login and/or password", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.signup_btn:
                 username = loginEdit.getText().toString();
                 password = passwordEdit.getText().toString();
+                writeNewUser(username, password);
                 loginEdit.setText("");
                 passwordEdit.setText("");
                 Toast.makeText(getActivity(), "Congratulations, you have signed up", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public boolean login(String login, String password) {
+        for (User elem:userList
+             ) {
+            if (elem.getLogin().equals(login) && elem.getPassword().equals(password))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void writeNewUser(String login, String password) {
+        User user = new User(login, password,new ArrayList<String>() );
+        String key = database.child("users").push().getKey();
+        database.child("users").child(key).setValue(user);
     }
 }
