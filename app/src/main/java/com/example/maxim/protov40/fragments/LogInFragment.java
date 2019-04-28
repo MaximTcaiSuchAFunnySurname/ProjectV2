@@ -15,6 +15,7 @@ import com.example.maxim.protov40.R;
 import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.ILogin;
 import com.example.maxim.protov40.util.Session;
+import com.example.maxim.protov40.util.ToDo;
 import com.example.maxim.protov40.util.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                         ) {
                     HashMap map = (HashMap) elem.getValue();
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
-                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), (ArrayList<Folder>) map2.get("list"));
+                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), (ArrayList<Folder>) map2.get("folders"));
                     userList.add(user);
                 }
             }
@@ -114,7 +117,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
 
     @Override
     public void writeNewUser(String login, String password) {
-        User user = new User(login, password,new ArrayList<Folder>());
+        ToDo todo = new ToDo("", "", "");
+        Folder folder = new Folder("Test", Collections.singletonList(todo));
+        User user = new User(login, password,Collections.singletonList(folder));
         String key = database.child("users").push().getKey();
         database.child("users").child(key).setValue(user);
     }

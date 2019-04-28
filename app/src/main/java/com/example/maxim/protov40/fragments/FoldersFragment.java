@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.util.Folder;
+import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private Button create;
     private DatabaseReference database;
     private List<User> users;
-    private List<String> listOfNotes;
+    private List<String> listOfFolders;
 
     public FoldersFragment() {
     }
@@ -41,38 +45,14 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.folders_layout, container, false);
-//        database = FirebaseDatabase.getInstance().getReference();
-//        users = new ArrayList<>();
-//        listOfNotes = new ArrayList<>();
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.folders
-                , android.R.layout.simple_list_item_1);
+        listOfFolders = new ArrayList<>();
+        for (Folder elem : Session.getINSTANCE().getUser().getFolders()
+                ) {
+            if (!elem.getName().equals(""))
+                listOfFolders.add(elem.getName());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
         ListView listView = (ListView) view.findViewById(R.id.list_folders);
-//        database.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot elem : dataSnapshot.getChildren()
-//                        ) {
-//                    HashMap map = (HashMap) elem.getValue();
-//                    HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
-//                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), new ArrayList<String>());
-//                    users.add(user);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//        for (User user: users
-//             ) {
-//            if (user.getLogin().equals(getArguments().getString("login"))){
-//                listOfNotes = user.getList();
-//                break;
-//            }
-//        }
-//        ArrayAdapter<String>adapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, listOfNotes);
         listView.setAdapter(adapter);
         return view;
     }

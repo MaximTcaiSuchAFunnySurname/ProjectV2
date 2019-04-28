@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Folder implements Serializable {
     private String name;
-    private List<ToDo> list;
+    private List<ToDo> todos;
 
-    public Folder(String name, List<ToDo> list) {
+    public Folder(String name, List<ToDo> todos) {
         this.name = name;
-        this.list = list;
+        this.todos = todos;
     }
 
     public String getName() {
@@ -20,19 +20,19 @@ public class Folder implements Serializable {
         this.name = name;
     }
 
-    public List<ToDo> getList() {
-        return list;
+    public List<ToDo> getTodos() {
+        return todos;
     }
 
-    public void setList(List<ToDo> list) {
-        this.list = list;
+    public void setTodos(List<ToDo> todos) {
+        this.todos = todos;
     }
 
     @Override
     public String toString() {
         return "Folder{" +
                 "name='" + name + '\'' +
-                ", list=" + list +
+                ", todos=" + todos +
                 '}';
     }
 }

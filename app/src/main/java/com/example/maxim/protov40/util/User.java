@@ -9,16 +9,16 @@ import java.util.List;
 public class User implements Serializable {
     private String login;
     private String password;
-    private List<Folder> list;
+    private List<Folder> folders;
 
     public User(){
 
     }
 
-    public User(String login, String password, List<Folder> list) {
+    public User(String login, String password, List<Folder> folders) {
         this.login = login;
         this.password = password;
-        this.list = list;
+        this.folders = folders;
     }
 
     public String getLogin() {
@@ -37,12 +37,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public List<Folder> getList() {
-        return list;
+    public List<Folder> getFolders() {
+        return folders;
     }
 
-    public void setList(List<Folder> list) {
-        this.list = list;
+    public void setFolders(List<Folder> folders) {
+        this.folders = folders;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class User implements Serializable {
         return "User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", list=" + list +
+                ", folders=" + folders +
                 '}';
     }
 }
