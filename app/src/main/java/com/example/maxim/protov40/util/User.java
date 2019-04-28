@@ -9,13 +9,13 @@ import java.util.List;
 public class User implements Serializable {
     private String login;
     private String password;
-    private List<String> list;
+    private List<Folder> list;
 
     public User(){
 
     }
 
-    public User(String login, String password, List<String> list) {
+    public User(String login, String password, List<Folder> list) {
         this.login = login;
         this.password = password;
         this.list = list;
@@ -37,11 +37,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public List<String> getList() {
+    public List<Folder> getList() {
         return list;
     }
 
-    public void setList(List<String> list) {
+    public void setList(List<Folder> list) {
         this.list = list;
     }
 

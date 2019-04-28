@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.ILogin;
+import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,7 +62,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                         ) {
                     HashMap map = (HashMap) elem.getValue();
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
-                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), new ArrayList<String>());
+                    User user = new User(map2.get("login").toString(), map2.get("password").toString(), (ArrayList<Folder>) map2.get("list"));
                     userList.add(user);
                 }
             }
@@ -81,8 +83,6 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         switch (v.getId()) {
             case R.id.login_btn:
              if (login(loginEdit.getText().toString(), passwordEdit.getText().toString())) {
-//                    bundle = new Bundle();
-//                    bundle.putString("login", loginEdit.getText().toString());
                     Toast.makeText(getActivity(), "Congratulations, you have logged in", Toast.LENGTH_SHORT).show();
                     trans.replace(R.id.frame, new FoldersFragment());
                     trans.commit();
@@ -106,6 +106,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         for (User elem:userList
              ) {
             if (elem.getLogin().equals(login) && elem.getPassword().equals(password))
+                Session.getINSTANCE().setUser(elem);
                 return true;
         }
         return false;
@@ -113,7 +114,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
 
     @Override
     public void writeNewUser(String login, String password) {
-        User user = new User(login, password,new ArrayList<String>() );
+        User user = new User(login, password,new ArrayList<Folder>());
         String key = database.child("users").push().getKey();
         database.child("users").child(key).setValue(user);
     }
