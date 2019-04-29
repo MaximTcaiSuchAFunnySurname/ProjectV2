@@ -66,7 +66,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                     HashMap map = (HashMap) elem.getValue();
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
                     User user = new User(map2.get("login").toString(), map2.get("password").toString()
-                            , hashMapToFolder((HashMap) map2.get("folders")) );
+                            , hashMapToFolder((ArrayList)map2.get("folders")) );
                     userList.add(user);
                 }
             }
@@ -125,13 +125,14 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         database.child("users").child(key).setValue(user);
     }
 
-    public List<Folder> hashMapToFolder(HashMap hashMap){
-        ArrayList<Folder> list = new ArrayList<>();
-        for (Object elem: hashMap.values()
+    public List<Folder> hashMapToFolder(List<HashMap> list){
+        ArrayList<Folder> result = new ArrayList<>();
+        for (HashMap elem: list
              ) {
-            list.add((Folder)elem);
+            Folder folder = new Folder((String)elem.get("name"), (ArrayList)elem.get("todos"));
+            result.add(folder);
         }
-        return list;
+        return result;
     }
 
 }
