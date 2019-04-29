@@ -14,6 +14,8 @@ import android.widget.ListView;
 import com.example.maxim.protov40.R;
 import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.Session;
+import com.example.maxim.protov40.util.Storage;
+import com.example.maxim.protov40.util.ToDo;
 import com.example.maxim.protov40.util.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +34,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private DatabaseReference database;
     private List<User> users;
     private List<String> listOfFolders;
+    private ArrayAdapter adapter;
 
     public FoldersFragment() {
     }
@@ -45,13 +48,14 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.folders_layout, container, false);
-        //TODO: serializable метод hashmapToFolder
+        listOfFolders = new ArrayList<>();
+        database = FirebaseDatabase.getInstance().getReference();
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
                 ) {
             if (!elem.getName().equals(""))
                 listOfFolders.add(elem.getName());
         }
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
+        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
         ListView listView = (ListView) view.findViewById(R.id.list_folders);
         listView.setAdapter(adapter);
         return view;
@@ -59,7 +63,13 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.create_button:
+                listOfFolders.add("TestFolder");
+                adapter.notifyDataSetChanged();
+                Folder folder = new Folder("TestFolder", new ArrayList<>());
+                Storage.getINSTANCE().createFolder(folder);
+        }
     }
 
     @Override
