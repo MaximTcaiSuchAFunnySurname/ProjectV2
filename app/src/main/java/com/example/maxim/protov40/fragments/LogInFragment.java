@@ -46,7 +46,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    //todo Разобраться с id всего
+    //todo bug ListView in FoldersFragment
+    //todo TodoFragmentList and TodoFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_layout, container, false);
@@ -66,7 +68,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                     HashMap map = (HashMap) elem.getValue();
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
                     User user = new User((String) map.keySet().toArray()[0],map2.get("login").toString(), map2.get("password").toString()
-                            , hashMapToFolder(map2.get("folders")) );
+                            , hashMapToFolder((HashMap)map2.get("folders")) );
                     userList.add(user);
                 }
             }
@@ -125,11 +127,11 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         database.child("users").child(key).setValue(user);
     }
 
-    public List<Folder> hashMapToFolder(HashMap<> list){
+    public List<Folder> hashMapToFolder(HashMap<String, Object> map){
         ArrayList<Folder> result = new ArrayList<>();
-        for (HashMap elem: list.values()
+        for (String elem: map.keySet()
              ) {
-            Folder folder = new Folder((String)elem.keySet().toArray()[0],(String)elem.get("name"), (ArrayList)elem.get("todos"));
+            Folder folder = new Folder(elem,(String)((HashMap<String, Object>)map.get(elem)).get("name"), (ArrayList)((HashMap<String, Object>)map.get(elem)).get("todos"));
             result.add(folder);
         }
         return result;
