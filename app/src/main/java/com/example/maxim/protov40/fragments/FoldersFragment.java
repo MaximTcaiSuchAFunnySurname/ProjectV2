@@ -45,7 +45,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.folders_layout, container, false);
-        listOfFolders = new ArrayList<>();
+        //TODO: serializable метод hashmapToFolder
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
                 ) {
             if (!elem.getName().equals(""))
