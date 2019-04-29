@@ -11,8 +11,8 @@ public class Storage {
     }
 
     public void createFolder(Folder folder){
-        String key = database.child("users").getKey();
-        String folderKey = database.child("users").child(key).child("folders").getKey();
+        String key = Session.getINSTANCE().getUser().getId();
+        String folderKey = database.child("users").child(key).child("folders").push().getKey();
         database.child("users").child(key).child("folders").child(folderKey).setValue(folder);
         Session.getINSTANCE().getUser().getFolders().add(folder);
     }

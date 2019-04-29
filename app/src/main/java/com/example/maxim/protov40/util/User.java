@@ -7,6 +7,7 @@ import java.util.List;
 
 @IgnoreExtraProperties
 public class User implements Serializable {
+    private String id;
     private String login;
     private String password;
     private List<Folder> folders;
@@ -16,6 +17,13 @@ public class User implements Serializable {
     }
 
     public User(String login, String password, List<Folder> folders) {
+        this.login = login;
+        this.password = password;
+        this.folders = folders;
+    }
+
+    public User(String id, String login, String password, List<Folder> folders) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.folders = folders;
@@ -43,6 +51,14 @@ public class User implements Serializable {
 
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

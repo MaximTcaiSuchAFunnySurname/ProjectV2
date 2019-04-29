@@ -35,6 +35,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private List<User> users;
     private List<String> listOfFolders;
     private ArrayAdapter adapter;
+    private ListView listView;
 
     public FoldersFragment() {
     }
@@ -48,6 +49,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.folders_layout, container, false);
+        create = (Button) view.findViewById(R.id.create_button);
         listOfFolders = new ArrayList<>();
         database = FirebaseDatabase.getInstance().getReference();
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
@@ -56,8 +58,9 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
                 listOfFolders.add(elem.getName());
         }
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
-        ListView listView = (ListView) view.findViewById(R.id.list_folders);
+        listView = (ListView) view.findViewById(R.id.list_folders);
         listView.setAdapter(adapter);
+        create.setOnClickListener(this);
         return view;
     }
 
@@ -67,7 +70,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
             case R.id.create_button:
                 listOfFolders.add("TestFolder");
                 adapter.notifyDataSetChanged();
-                Folder folder = new Folder("TestFolder", new ArrayList<>());
+                Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("","","")));
                 Storage.getINSTANCE().createFolder(folder);
         }
     }
