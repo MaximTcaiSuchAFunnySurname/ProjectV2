@@ -1,16 +1,18 @@
 package com.example.maxim.protov40.util;
 
+import android.icu.util.LocaleData;
+
 import java.io.Serializable;
 
 public class ToDo implements Serializable {
     private String name;
-    private String data;
-    private String text;
+    private String disc;
+    private String time;
 
-    public ToDo(String name, String text, String data) {
+    public ToDo(String name, String disc, String time) {
         this.name = name;
-        this.text = text;
-        this.data = data;
+        this.disc = disc;
+        this.time = time;
     }
 
     public String getName() {
@@ -21,28 +23,28 @@ public class ToDo implements Serializable {
         this.name = name;
     }
 
-    public String getData() {
-        return data;
+    public String getDisc() {
+        return disc;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDisc(String disc) {
+        this.disc = disc;
     }
 
-    public String getText() {
-        return text;
+    public String getTime() {
+        return time;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @Override
     public String toString() {
         return "ToDo{" +
                 "name='" + name + '\'' +
-                ", data='" + data + '\'' +
-                ", text='" + text + '\'' +
+                ", disc='" + disc + '\'' +
+                ", time=" + time +
                 '}';
     }
 }

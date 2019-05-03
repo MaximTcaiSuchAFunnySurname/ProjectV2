@@ -131,7 +131,14 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         ArrayList<Folder> result = new ArrayList<>();
         for (String elem: map.keySet()
              ) {
-            Folder folder = new Folder(elem,(String)((HashMap<String, Object>)map.get(elem)).get("name"), (ArrayList)((HashMap<String, Object>)map.get(elem)).get("todos"));
+            ArrayList<ToDo> todos = new ArrayList<>();
+            for (Object todoElem: ((HashMap<String, ArrayList>) map.get(elem)).get("todos")) {
+                ToDo todo = new ToDo((String) ((HashMap)todoElem).get("name"),
+                        (String) ((HashMap)todoElem).get("disc"),
+                        (String) ((HashMap)todoElem).get("time"));
+                todos.add(todo);
+            }
+            Folder folder = new Folder(elem,(String)((HashMap<String, Object>)map.get(elem)).get("name"), todos);
             result.add(folder);
         }
         return result;
