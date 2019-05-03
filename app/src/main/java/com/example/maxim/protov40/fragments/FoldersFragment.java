@@ -2,7 +2,7 @@ package com.example.maxim.protov40.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +17,11 @@ import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.Storage;
 import com.example.maxim.protov40.util.ToDo;
 import com.example.maxim.protov40.util.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -52,6 +47,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         create = (Button) view.findViewById(R.id.create_button);
         listOfFolders = new ArrayList<>();
         database = FirebaseDatabase.getInstance().getReference();
+        create = (Button)view.findViewById(R.id.create_button);
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
                 ) {
             if (!elem.getName().equals(""))
@@ -61,6 +57,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         listView = (ListView) view.findViewById(R.id.list_folders);
         listView.setAdapter(adapter);
         create.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
         return view;
     }
 
@@ -77,6 +74,11 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Bundle bundle = new Bundle();
+        bundle.putInt("folderIndex", position);
+        TodoListFragment fragment = new TodoListFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
     }
 }

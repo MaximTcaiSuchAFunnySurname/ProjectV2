@@ -125,11 +125,11 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         database.child("users").child(key).setValue(user);
     }
 
-    public List<Folder> hashMapToFolder(HashMap<> list){
+    public List<Folder> hashMapToFolder(HashMap<String, HashMap> map){
         ArrayList<Folder> result = new ArrayList<>();
-        for (HashMap elem: list.values()
+        for (String elem: map.keySet()
              ) {
-            Folder folder = new Folder((String)elem.keySet().toArray()[0],(String)elem.get("name"), (ArrayList)elem.get("todos"));
+            Folder folder = new Folder();
             result.add(folder);
         }
         return result;
