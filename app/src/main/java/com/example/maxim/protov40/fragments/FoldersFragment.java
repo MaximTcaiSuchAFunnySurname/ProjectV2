@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -29,7 +30,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private DatabaseReference database;
     private List<User> users;
     private List<String> listOfFolders;
-    private ArrayAdapter adapter;
+    private ArrayAdapter<String> adapter;
     private ListView listView;
 
     public FoldersFragment() {
@@ -66,7 +67,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         switch (v.getId()) {
             case R.id.create_button:
                 listOfFolders.add("TestFolder");
-                adapter.notifyDataSetChanged();
+                ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
                 Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("","","")));
                 Storage.getINSTANCE().createFolder(folder);
         }
