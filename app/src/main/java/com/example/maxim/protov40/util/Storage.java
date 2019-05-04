@@ -17,6 +17,14 @@ public class Storage {
         Session.getINSTANCE().getUser().getFolders().add(folder);
     }
 
+    public void createTodo(ToDo toDo, int position){
+        String userKey = Session.getINSTANCE().getUser().getId();
+        String folderKey = Session.getINSTANCE().getUser().getFolders().get(position).getId();
+        String key = database.child("users").child(userKey).child("folders").child(folderKey).push().getKey();
+        database.child("users").child(userKey).child("folders").child(folderKey).child("todos").child(key).setValue(toDo);
+        Session.getINSTANCE().getUser().getFolders().get(position).getTodos().add(toDo);
+    }
+
 
     public static Storage getINSTANCE() {
         return INSTANCE;

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class LogInFragment extends Fragment implements View.OnClickListener, ILogin {
@@ -132,14 +133,16 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         for (String elem: map.keySet()
              ) {
             ArrayList<ToDo> todos = new ArrayList<>();
-            for (Object todoElem: ((HashMap<String, ArrayList>) map.get(elem)).get("todos")) {
-                ToDo todo = new ToDo((String) ((HashMap)todoElem).get("name"),
-                        (String) ((HashMap)todoElem).get("disc"),
-                        (String) ((HashMap)todoElem).get("time"));
-                todos.add(todo);
+            if (((HashMap<String,ArrayList>)map.get(elem)).get("todos") != null) {
+                for (Object todoElem : ((HashMap<String, HashMap>) map.get(elem)).get("todos").keySet()) {
+                    ToDo todo = new ToDo((String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("name"),
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("disc"),
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("time"));
+                    todos.add(todo);
+                }
+                Folder folder = new Folder(elem, (String) ((HashMap<String, Object>) map.get(elem)).get("name"), todos);
+                result.add(folder);
             }
-            Folder folder = new Folder(elem,(String)((HashMap<String, Object>)map.get(elem)).get("name"), todos);
-            result.add(folder);
         }
         return result;
     }

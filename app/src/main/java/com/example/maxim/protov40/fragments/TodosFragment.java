@@ -1,5 +1,6 @@
 package com.example.maxim.protov40.fragments;
 
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.Fragment;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.fragments.dialog.CreateTodoDialogFragment;
 import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.Storage;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TodosFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class TodosFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, CreateTodoDialogFragment.CreateTodoDialogListener {
     private Button create;
     private DatabaseReference database;
     private List<User> users;
@@ -65,6 +68,12 @@ public class TodosFragment extends Fragment implements View.OnClickListener, Ada
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame, foldersFragment);
                 fragmentTransaction.commit();
+                break;
+            case R.id.create_button:
+                CreateTodoDialogFragment ctdFragment = new CreateTodoDialogFragment();
+                ctdFragment.setTodosFragment(this);
+                ctdFragment.show(getFragmentManager(), "ctdFragment");
+                break;
         }
     }
 
@@ -83,4 +92,21 @@ public class TodosFragment extends Fragment implements View.OnClickListener, Ada
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        EditText editName = (EditText) dialog.getDialog().findViewById(R.id.todoname);
+        EditText editDisc = (EditText) dialog.getDialog().findViewById(R.id.tododisc);
+        EditText editTime = (EditText) dialog.getDialog().findViewById(R.id.todotime);
+        ToDo toDo = new ToDo(editName.getText().toString(),
+                editDisc.getText().toString(),
+                editTime.getText().toString());
+        Storage.getINSTANCE().createTodo(toDo, position);
+        listOfTodo.add(toDo.getName());
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
 }

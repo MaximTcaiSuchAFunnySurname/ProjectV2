@@ -1,5 +1,7 @@
 package com.example.maxim.protov40.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -10,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.fragments.dialog.CreateFolderDialogFragments;
 import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.Storage;
@@ -25,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, CreateFolderDialogFragments.CreateFolderDialogListener {
     private Button create;
     private DatabaseReference database;
     private List<User> users;
@@ -49,7 +53,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         listOfFolders = new ArrayList<String>();
         database = FirebaseDatabase.getInstance().getReference();
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
-                ) {
+        ) {
             if (!elem.getName().equals(""))
                 listOfFolders.add(elem.getName());
         }
@@ -65,10 +69,9 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create_button:
-                listOfFolders.add("TestFolder");
-                Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("","","")));
-                Storage.getINSTANCE().createFolder(folder);
-                adapter.notifyDataSetChanged();
+                CreateFolderDialogFragments cfdFragment = new CreateFolderDialogFragments();
+                cfdFragment.setFoldersFragment(this);
+                cfdFragment.show(getFragmentManager(), "cfdFragment");
         }
     }
 
@@ -81,5 +84,20 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         todosFragment.setArguments(bundle);
         transaction.replace(R.id.frame, todosFragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        ToDo toDo = new ToDo("","","");
+        EditText editText = (EditText) dialog.getDialog().findViewById(R.id.foldername);
+        Folder folder = new Folder(editText.getText().toString(), Collections.singletonList(toDo));
+        Storage.getINSTANCE().createFolder(folder);
+        listOfFolders.add(folder.getName());
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }
