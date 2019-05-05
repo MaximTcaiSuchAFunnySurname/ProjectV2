@@ -2,6 +2,7 @@ package com.example.maxim.protov40.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,11 @@ import com.example.maxim.protov40.util.Session;
 
 import org.w3c.dom.Text;
 
-public class TodoFragment extends Fragment {
+public class TodoFragment extends Fragment implements View.OnClickListener{
     private TextView todoName;
     private TextView todoText;
     private TextView todoData;
+    private Button back;
 
     public TodoFragment() {
     }
@@ -33,9 +35,11 @@ public class TodoFragment extends Fragment {
         todoName = (TextView) view.findViewById(R.id.todo_name);
         todoText = (TextView) view.findViewById(R.id.todo_text);
         todoData = (TextView) view.findViewById(R.id.todo_data);
+        back = (Button) view.findViewById(R.id.back_button0);
         todoName.setText(getTodoInfo("name"));
         todoText.setText(getTodoInfo("text"));
         todoData.setText(getTodoInfo("data"));
+        back.setOnClickListener(this);
         return view;
     }
 
@@ -57,4 +61,11 @@ public class TodoFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        TodoListFragment fragment = new TodoListFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
+    }
 }
