@@ -10,13 +10,20 @@ public class Storage {
     private Storage() {
     }
 
-    public void createFolder(Folder folder){
+    public void createFolder(Folder folder) {
         String key = Session.getINSTANCE().getUser().getId();
         String folderKey = database.child("users").child(key).child("folders").push().getKey();
         database.child("users").child(key).child("folders").child(folderKey).setValue(folder);
         Session.getINSTANCE().getUser().getFolders().add(folder);
     }
 
+    public void createTodo(ToDo toDo, int position) {
+        String userKey = Session.getINSTANCE().getUser().getId();
+        String folderKey = Session.getINSTANCE().getUser().getFolders().get(position).getId();
+        String key = database.child("users").child(userKey).child("folders").child(folderKey).push().getKey();
+        database.child("users").child(userKey).child("folders").child(folderKey).child("todos").child(key).setValue(toDo);
+        Session.getINSTANCE().getUser().getFolders().get(position).getTodos().add(toDo);
+    }
 
     public static Storage getINSTANCE() {
         return INSTANCE;

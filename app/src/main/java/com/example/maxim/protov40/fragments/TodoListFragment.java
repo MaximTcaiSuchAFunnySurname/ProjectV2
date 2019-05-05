@@ -20,11 +20,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class TodoListFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ListView listView;
     private List<String> list;
     private ArrayAdapter<String> adapter;
     private Button createTodo;
+    private Button back;
 
     public TodoListFragment() {
 
@@ -40,6 +41,7 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         View view = inflater.inflate(R.layout.todo_list_layout, container, false);
         listView = (ListView) view.findViewById(R.id.notes_list);
         createTodo = (Button) view.findViewById(R.id.create_todo);
+        back = (Button) view.findViewById(R.id.back_button1);
         list = new ArrayList<>();
         Bundle bundle = new Bundle();
         for (ToDo elem : Session.getINSTANCE().getUser()
@@ -50,6 +52,7 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        back.setOnClickListener(this);
         return view;
     }
 
@@ -59,6 +62,14 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         Bundle bundle = new Bundle();
         bundle.putInt("todoIndex", position);
         TodoFragment fragment = new TodoFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        FoldersFragment fragment = new FoldersFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.commit();

@@ -66,7 +66,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                     HashMap map = (HashMap) elem.getValue();
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
                     User user = new User((String) map.keySet().toArray()[0],map2.get("login").toString(), map2.get("password").toString()
-                            , hashMapToFolder(map2.get("folders")) );
+                            , hashMapToFolder((HashMap) map2.get("folders")) );
                     userList.add(user);
                 }
             }
@@ -125,12 +125,21 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
         database.child("users").child(key).setValue(user);
     }
 
-    public List<Folder> hashMapToFolder(HashMap<String, HashMap> map){
+    public List<Folder> hashMapToFolder(HashMap<String, Object> map){
         ArrayList<Folder> result = new ArrayList<>();
         for (String elem: map.keySet()
-             ) {
-            Folder folder = new Folder();
-            result.add(folder);
+                ) {
+            ArrayList<ToDo> todos = new ArrayList<>();
+            if (((HashMap<String,ArrayList>)map.get(elem)).get("todos") != null) {
+                for (Object todoElem : ((HashMap<String, HashMap>) map.get(elem)).get("todos").keySet()) {
+                    ToDo todo = new ToDo((String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("name"),
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("disc"),
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("time"));
+                    todos.add(todo);
+                }
+                Folder folder = new Folder(elem, (String) ((HashMap<String, Object>) map.get(elem)).get("name"), todos);
+                result.add(folder);
+            }
         }
         return result;
     }

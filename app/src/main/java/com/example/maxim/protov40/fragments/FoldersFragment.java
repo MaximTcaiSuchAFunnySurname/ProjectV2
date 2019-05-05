@@ -32,6 +32,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private List<String> listOfFolders;
     private ArrayAdapter<String> adapter;
     private ListView listView;
+    private Button back;
 
     public FoldersFragment() {
     }
@@ -48,7 +49,8 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         create = (Button) view.findViewById(R.id.create_button);
         listOfFolders = new ArrayList<>();
         database = FirebaseDatabase.getInstance().getReference();
-        create = (Button)view.findViewById(R.id.create_button);
+        create = (Button) view.findViewById(R.id.create_button);
+        back = (Button) view.findViewById(R.id.back_button);
         for (Folder elem : Session.getINSTANCE().getUser().getFolders()
                 ) {
             if (!elem.getName().equals(""))
@@ -59,6 +61,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         listView.setAdapter(adapter);
         create.setOnClickListener(this);
         listView.setOnItemClickListener(this);
+        back.setOnClickListener(this);
         return view;
     }
 
@@ -67,9 +70,16 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         switch (v.getId()) {
             case R.id.create_button:
                 listOfFolders.add("TestFolder");
-                ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
-                Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("","","")));
+                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("", "", "")));
                 Storage.getINSTANCE().createFolder(folder);
+                break;
+            case R.id.back_button:
+                LogInFragment fragment = new LogInFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame, fragment);
+                transaction.commit();
+                break;
         }
     }
 
