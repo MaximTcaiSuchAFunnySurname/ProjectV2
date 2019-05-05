@@ -43,9 +43,8 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         createTodo = (Button) view.findViewById(R.id.create_todo);
         back = (Button) view.findViewById(R.id.back_button1);
         list = new ArrayList<>();
-        Bundle bundle = new Bundle();
         for (ToDo elem : Session.getINSTANCE().getUser()
-                .getFolders().get(bundle.getInt("folderIndex")).getTodos()
+                .getFolders().get(getArguments().getInt("folderIndex")).getTodos()
                 ) {
             list.add(elem.getName());
         }
@@ -62,6 +61,7 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         Bundle bundle = new Bundle();
         bundle.putInt("todoIndex", position);
         TodoFragment fragment = new TodoFragment();
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.commit();

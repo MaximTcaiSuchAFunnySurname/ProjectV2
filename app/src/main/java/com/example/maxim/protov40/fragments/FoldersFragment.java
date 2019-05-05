@@ -55,14 +55,10 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         database = FirebaseDatabase.getInstance().getReference();
         create = (Button) view.findViewById(R.id.create_button);
         back = (Button) view.findViewById(R.id.back_button);
-        try {
-            for (Folder elem : Session.getINSTANCE().getUser().getFolders()
-                    ) {
-                if (!elem.getName().equals(""))
-                    listOfFolders.add(elem.getName());
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        for (Folder elem : Session.getINSTANCE().getUser().getFolders()
+        ) {
+            if (!elem.getName().equals(""))
+                listOfFolders.add(elem.getName());
         }
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listOfFolders);
         listView = (ListView) view.findViewById(R.id.list_folders);
@@ -95,6 +91,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         Bundle bundle = new Bundle();
         bundle.putInt("folderIndex", position);
         TodoListFragment fragment = new TodoListFragment();
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
