@@ -118,11 +118,10 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
 
     @Override
     public void writeNewUser(String login, String password) {
-        ToDo todo = new ToDo("", "", "");
-        Folder folder = new Folder("Test", Collections.singletonList(todo));
-        User user = new User(login, password,Collections.singletonList(folder));
+        User user = new User(login, password,null);
         String key = database.child("users").push().getKey();
         database.child("users").child(key).setValue(user);
+        database.child("users").child(key).setValue("folders");
     }
 
     public List<Folder> hashMapToFolder(HashMap<String, Object> map){

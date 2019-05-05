@@ -1,5 +1,6 @@
 package com.example.maxim.protov40.fragments;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.app.FragmentTransaction;
@@ -10,9 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.maxim.protov40.R;
+import com.example.maxim.protov40.fragments.dialog.CreateFolderDialogFragment;
 import com.example.maxim.protov40.util.Folder;
 import com.example.maxim.protov40.util.Session;
 import com.example.maxim.protov40.util.Storage;
@@ -25,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, CreateFolderDialogFragment.ICreateDialog {
     private Button create;
     private DatabaseReference database;
     private List<User> users;
@@ -51,10 +55,14 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         database = FirebaseDatabase.getInstance().getReference();
         create = (Button) view.findViewById(R.id.create_button);
         back = (Button) view.findViewById(R.id.back_button);
-        for (Folder elem : Session.getINSTANCE().getUser().getFolders()
-                ) {
-            if (!elem.getName().equals(""))
-                listOfFolders.add(elem.getName());
+        try {
+            for (Folder elem : Session.getINSTANCE().getUser().getFolders()
+                    ) {
+                if (!elem.getName().equals(""))
+                    listOfFolders.add(elem.getName());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
         listView = (ListView) view.findViewById(R.id.list_folders);
@@ -91,5 +99,22 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        EditText edit = (EditText) dialog.getDialog().findViewById(R.id.foldername_edit);
+        if (!edit.getText().toString().equals("")) {
+            Storage.getINSTANCE().createFolder(new Folder(edit.getText().toString(), null));
+            listOfFolders.add(edit.getText().toString());
+            adapter.notifyDataSetChanged();
+        } else{
+            Toast.makeText(getActivity(), "Empty folder name", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }
