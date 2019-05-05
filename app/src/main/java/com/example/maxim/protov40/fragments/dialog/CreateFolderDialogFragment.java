@@ -27,7 +27,7 @@ public class CreateFolderDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setTitle(R.string.login_title);
+        builder.setTitle(R.string.create_folder_title);
         builder.setView(inflater.inflate(R.layout.create_folder_dialog_layout, null))
                 .setPositiveButton(R.string.create_btn, new DialogInterface.OnClickListener() {
                     @Override

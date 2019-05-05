@@ -51,7 +51,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.folders_layout, container, false);
         create = (Button) view.findViewById(R.id.create_button);
-        listOfFolders = new ArrayList<>();
+        listOfFolders = new ArrayList<String>();
         database = FirebaseDatabase.getInstance().getReference();
         create = (Button) view.findViewById(R.id.create_button);
         back = (Button) view.findViewById(R.id.back_button);
@@ -64,7 +64,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listOfFolders.toArray());
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listOfFolders);
         listView = (ListView) view.findViewById(R.id.list_folders);
         listView.setAdapter(adapter);
         create.setOnClickListener(this);
@@ -77,10 +77,9 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create_button:
-                listOfFolders.add("TestFolder");
-                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
-                Folder folder = new Folder("TestFolder", Collections.singletonList(new ToDo("", "", "")));
-                Storage.getINSTANCE().createFolder(folder);
+                CreateFolderDialogFragment dialogFragment = new CreateFolderDialogFragment();
+                dialogFragment.setmListener(this);
+                dialogFragment.show(getFragmentManager(), "0");
                 break;
             case R.id.back_button:
                 LogInFragment fragment = new LogInFragment();
@@ -108,7 +107,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
             Storage.getINSTANCE().createFolder(new Folder(edit.getText().toString(), null));
             listOfFolders.add(edit.getText().toString());
             adapter.notifyDataSetChanged();
-        } else{
+        } else {
             Toast.makeText(getActivity(), "Empty folder name", Toast.LENGTH_SHORT).show();
         }
     }
