@@ -14,6 +14,7 @@ public class Storage {
         String key = Session.getINSTANCE().getUser().getId();
         String folderKey = database.child("users").child(key).child("folders").push().getKey();
         database.child("users").child(key).child("folders").child(folderKey).setValue(folder);
+        folder.setId(folderKey);
         Session.getINSTANCE().getUser().getFolders().add(folder);
     }
 
@@ -22,6 +23,7 @@ public class Storage {
         String folderKey = Session.getINSTANCE().getUser().getFolders().get(position).getId();
         String key = database.child("users").child(userKey).child("folders").child(folderKey).push().getKey();
         database.child("users").child(userKey).child("folders").child(folderKey).child("todos").child(key).setValue(toDo);
+        toDo.setId(key);
         Session.getINSTANCE().getUser().getFolders().get(position).getTodos().add(toDo);
     }
 
