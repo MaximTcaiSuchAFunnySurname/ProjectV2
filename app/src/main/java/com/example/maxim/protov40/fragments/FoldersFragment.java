@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, CreateFolderDialogFragment.ICreateDialog {
+public class FoldersFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, CreateFolderDialogFragment.ICreateDialog, AdapterView.OnItemLongClickListener {
     private Button create;
     private DatabaseReference database;
     private List<User> users;
@@ -65,6 +65,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         listView.setAdapter(adapter);
         create.setOnClickListener(this);
         listView.setOnItemClickListener(this);
+        listView.setOnItemLongClickListener(this);
         back.setOnClickListener(this);
         return view;
     }
@@ -97,6 +98,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         transaction.commit();
     }
 
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText edit = (EditText) dialog.getDialog().findViewById(R.id.foldername_edit);
@@ -112,5 +114,19 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(), "Deleting " + Session.getINSTANCE()
+                .getUser().getFolders().get(position), Toast.LENGTH_LONG).show();
+        listOfFolders.remove(position);
+        adapter.notifyDataSetChanged();
+        String userKey = Session.getINSTANCE().getUser().getId();
+        String folderKey = Session.getINSTANCE().getUser().getFolders().get(position).getId();
+        Session.getINSTANCE().getUser().getFolders().remove(position);
+        database.child("users").child(userKey).child("folders")
+                .child(folderKey).removeValue();
+        return true;
     }
 }

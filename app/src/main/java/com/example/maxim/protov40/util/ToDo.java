@@ -6,6 +6,7 @@ public class ToDo implements Serializable {
     private String name;
     private String data;
     private String text;
+    private String id;
 
     public ToDo(String name, String text, String data) {
         this.name = name;
@@ -35,6 +36,14 @@ public class ToDo implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
