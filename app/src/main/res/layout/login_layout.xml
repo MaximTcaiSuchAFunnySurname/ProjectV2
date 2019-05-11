@@ -9,8 +9,9 @@
     <TextView
         android:id="@+id/login_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60sp"
         android:text="@string/login_title"
+        style="@style/LoginStyle"
         app:layout_constraintBottom_toTopOf="@+id/lledittext"
         android:gravity="center"
         />
@@ -48,21 +49,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/lledittext">
 
         <Button
             android:id="@+id/login_btn"
-            android:layout_width="match_parent"
+            android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:text="@string/login_btn"
-            android:layout_marginTop="48dp"/>
+            android:layout_marginTop="48dp"
+            style="@style/ButtonStyle"/>
 
         <Button
             android:id="@+id/signup_btn"
-            android:layout_width="match_parent"
+            style="@style/ButtonStyle"
+            android:layout_width="100sp"
             android:layout_height="wrap_content"
-            android:text="@string/signup_btn"
-            android:layout_below="@+id/login_btn"/>
+            android:layout_below="@+id/login_btn"
+
+            android:layout_marginTop="0dp"
+            android:text="@string/signup_btn" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
