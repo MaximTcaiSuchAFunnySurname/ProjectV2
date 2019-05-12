@@ -58,10 +58,12 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
         database = FirebaseDatabase.getInstance().getReference();
         create = (Button) view.findViewById(R.id.create_button);
         back = (Button) view.findViewById(R.id.back_button);
-        for (Folder elem : Session.getINSTANCE().getUser().getFolders()
-        ) {
-            if (!elem.getName().equals(""))
-                listOfFolders.add(elem.getName());
+        if (Session.getINSTANCE().getUser().getFolders() != null) {
+            for (Folder elem : Session.getINSTANCE().getUser().getFolders()
+            ) {
+                if (!elem.getName().equals(""))
+                    listOfFolders.add(elem.getName());
+            }
         }
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listOfFolders);
         listView = (SwipeMenuListView) view.findViewById(R.id.list_folders);

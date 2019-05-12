@@ -62,13 +62,20 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot elem : dataSnapshot.getChildren()
-                        ) {
+                ) {
                     HashMap map = (HashMap) elem.getValue();
-                    HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
-                    User user = new User((String) map.keySet().toArray()[0],map2.get("login").toString(), map2.get("password").toString()
-                            , hashMapToFolder((HashMap) map2.get("folders")) );
-
-                    userList.add(user);
+                    for (Object key : map.keySet()) {
+                        User user;
+                        HashMap map2 = (HashMap) map.get((String) key);
+                        if ((HashMap) map2.get("folders") != null){
+                            user = new User((String) key, map2.get("login").toString(), map2.get("password").toString()
+                                , hashMapToFolder((HashMap) map2.get("folders")));
+                        } else {
+                            user = new User((String) key, map2.get("login").toString(), map2.get("password").toString()
+                                    ,  new ArrayList<>());
+                        }
+                        userList.add(user);
+                    }
                 }
             }
 
@@ -108,20 +115,20 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
 
     @Override
     public boolean login(String login, String password) {
-        for (User elem:userList
-             ) {
-            if (elem.getLogin().equals(login) && elem.getPassword().equals(password))
+        for (User elem : userList
+        ) {
+            if (elem.getLogin().equals(login) && elem.getPassword().equals(password)) {
                 Session.getINSTANCE().setUser(elem);
                 return true;
+            }
         }
         return false;
     }
 
     @Override
     public void writeNewUser(String login, String password) {
-        User user = new User(login, password,new ArrayList<Folder>());
+        User user = new User(login, password, null);
         String key = database.child("users").push().getKey();
-        user.setId(key);
         database.child("users").child(key).setValue(user);
     }
 
