@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:text="name"
         app:layout_constraintBottom_toTopOf="@+id/todo_text"
+        style="@style/LoginStyle"
         />
 
     <TextView
