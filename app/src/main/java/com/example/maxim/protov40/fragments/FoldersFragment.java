@@ -2,6 +2,8 @@ package com.example.maxim.protov40.fragments;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.example.maxim.protov40.util.ToDo;
 import com.example.maxim.protov40.util.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.baoyz.swipemenulistview.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +38,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     private List<User> users;
     private List<String> listOfFolders;
     private ArrayAdapter<String> adapter;
-    private ListView listView;
+    private SwipeMenuListView listView;
     private Button back;
 
     public FoldersFragment() {
@@ -61,11 +64,53 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
                 listOfFolders.add(elem.getName());
         }
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listOfFolders);
-        listView = (ListView) view.findViewById(R.id.list_folders);
+        listView = (SwipeMenuListView) view.findViewById(R.id.list_folders);
         listView.setAdapter(adapter);
         create.setOnClickListener(this);
-        listView.setOnItemClickListener(this);
-        listView.setOnItemLongClickListener(this);
+        SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem open = new SwipeMenuItem(getActivity());
+                SwipeMenuItem delete = new SwipeMenuItem(getActivity());
+                open.setBackground(new ColorDrawable(Color.GREEN));
+                open.setWidth(220);
+                open.setIcon(R.drawable.open);
+                menu.addMenuItem(open);
+                delete.setBackground(new ColorDrawable(Color.RED));
+                delete.setWidth(220);
+                delete.setIcon(R.drawable.delete);
+                menu.addMenuItem(delete);
+            }
+        };
+        listView.setMenuCreator(swipeMenuCreator);
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("folderIndex", position);
+                        TodoListFragment fragment = new TodoListFragment();
+                        fragment.setArguments(bundle);
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.frame, fragment);
+                        transaction.commit();
+                        break;
+                    case 1:
+                        Toast.makeText(getActivity(), "Deleting " + Session.getINSTANCE()
+                                .getUser().getFolders().get(position), Toast.LENGTH_LONG).show();
+                        listOfFolders.remove(position);
+                        adapter.notifyDataSetChanged();
+                        String userKey = Session.getINSTANCE().getUser().getId();
+                        String folderKey = Session.getINSTANCE().getUser().getFolders().get(position).getId();
+                        Session.getINSTANCE().getUser().getFolders().remove(position);
+                        database.child("users").child(userKey).child("folders")
+                                .child(folderKey).removeValue();
+                        break;
+                }
+                return true;
+            }
+        });
         back.setOnClickListener(this);
         return view;
     }

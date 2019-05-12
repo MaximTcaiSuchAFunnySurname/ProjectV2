@@ -67,6 +67,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
                     HashMap map2 = (HashMap) map.get(map.keySet().toArray()[0]);
                     User user = new User((String) map.keySet().toArray()[0],map2.get("login").toString(), map2.get("password").toString()
                             , hashMapToFolder((HashMap) map2.get("folders")) );
+
                     userList.add(user);
                 }
             }
@@ -118,7 +119,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
 
     @Override
     public void writeNewUser(String login, String password) {
-        User user = new User(login, password,null);
+        User user = new User(login, password,new ArrayList<Folder>());
         String key = database.child("users").push().getKey();
         user.setId(key);
         database.child("users").child(key).setValue(user);
