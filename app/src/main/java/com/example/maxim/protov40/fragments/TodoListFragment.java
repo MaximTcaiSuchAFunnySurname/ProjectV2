@@ -110,7 +110,6 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
 
     }
 
-
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(getActivity(), "Deleting toDo...", Toast.LENGTH_SHORT).show();
