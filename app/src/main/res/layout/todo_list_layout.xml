@@ -32,9 +32,9 @@
             app:layout_constraintRight_toLeftOf="@+id/back_button1" />
     </RelativeLayout>
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/notes_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/button_todo_relative" />
 

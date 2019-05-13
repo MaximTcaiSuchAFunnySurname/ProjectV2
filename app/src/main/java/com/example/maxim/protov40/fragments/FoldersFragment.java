@@ -90,10 +90,8 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("folderIndex", position);
+                        Session.getINSTANCE().setFolderPosition(position);
                         TodoListFragment fragment = new TodoListFragment();
-                        fragment.setArguments(bundle);
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.frame, fragment);
                         transaction.commit();
@@ -136,10 +134,8 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("folderIndex", position);
+        Session.getINSTANCE().setFolderPosition(position);
         TodoListFragment fragment = new TodoListFragment();
-        fragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
@@ -150,7 +146,7 @@ public class FoldersFragment extends Fragment implements View.OnClickListener, A
     public void onDialogPositiveClick(DialogFragment dialog) {
         EditText edit = (EditText) dialog.getDialog().findViewById(R.id.foldername_edit);
         if (!edit.getText().toString().equals("")) {
-            Storage.getINSTANCE().createFolder(new Folder(edit.getText().toString(), null));
+            Storage.getINSTANCE().createFolder(new Folder(edit.getText().toString(), new ArrayList<>()));
             listOfFolders.add(edit.getText().toString());
             adapter.notifyDataSetChanged();
         } else {

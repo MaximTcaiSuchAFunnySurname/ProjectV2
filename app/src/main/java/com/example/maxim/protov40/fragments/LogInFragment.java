@@ -62,7 +62,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot elem : dataSnapshot.getChildren()
-                ) {
+                        ) {
                     HashMap map = (HashMap) elem.getValue();
                     for (Object key : map.keySet()) {
                         User user;

@@ -47,16 +47,16 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         switch (key.toString()) {
             case "name":
                 return Session.getINSTANCE().getUser().getFolders()
-                        .get(getArguments().getInt("folderIndex")).getTodos()
-                        .get(getArguments().getInt("todoIndex")).getName();
+                        .get(Session.getINSTANCE().getFolderPosition()).getTodos()
+                        .get(Session.getINSTANCE().getTodoPosition()).getName();
             case "text":
                 return Session.getINSTANCE().getUser().getFolders()
-                        .get(getArguments().getInt("folderIndex")).getTodos()
-                        .get(getArguments().getInt("todoIndex")).getText();
+                        .get(Session.getINSTANCE().getFolderPosition()).getTodos()
+                        .get(Session.getINSTANCE().getTodoPosition()).getText();
             case "data":
                 return Session.getINSTANCE().getUser().getFolders()
-                        .get(getArguments().getInt("folderIndex")).getTodos()
-                        .get(getArguments().getInt("todoIndex")).getData();
+                        .get(Session.getINSTANCE().getFolderPosition()).getTodos()
+                        .get(Session.getINSTANCE().getTodoPosition()).getData();
         }
         return "";
     }
