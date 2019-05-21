@@ -11,7 +11,7 @@
     <string name="create_todo_title">Todo create</string>
     <string name="todo_name">NAME: </string>
     <string name="todo_text">TEXT: </string>
-    <string name="todo_data">DEADLINE: </string>
+    <string name="todo_data">DEADLINE:   DD/MM/YY </string>
 
 
 </resources>

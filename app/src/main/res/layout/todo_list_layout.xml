@@ -9,27 +9,26 @@
         android:id="@+id/button_todo_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/back_button1"
-            style="@style/ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="126dp"
-            android:text="back"
-            app:layout_constraintLeft_toRightOf="@+id/create_todo" />
+        android:gravity="end"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/create_todo"
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="17dp"
             android:text="create"
             app:layout_constraintRight_toLeftOf="@+id/back_button1" />
+
+        <Button
+            android:id="@+id/back_button1"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="132dp"
+            android:padding="8dp"
+            android:text="back" />
+
     </RelativeLayout>
 
     <com.baoyz.swipemenulistview.SwipeMenuListView

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maxim.protov40.R;
@@ -133,7 +134,7 @@ public class TodoListFragment extends Fragment implements View.OnClickListener, 
         EditText name = (EditText) dialog.getDialog().findViewById(R.id.todo_name_edit);
         EditText text = (EditText) dialog.getDialog().findViewById(R.id.todo_text_edit);
         EditText data = (EditText) dialog.getDialog().findViewById(R.id.todo_data_edit);
-        if (!(name.getText().toString().equals("") && text.getText().toString().equals("") && data.getText().toString().equals(""))) {
+        if (!(name.getText().toString().equals(" ") && text.getText().toString().equals(" ") && data.getText().toString().equals(" "))) {
             Storage.getINSTANCE().createTodo(new ToDo(name.getText().toString(), text.getText().toString()
                     , data.getText().toString()), Session.getINSTANCE().getFolderPosition());
             todoList.add(name.getText().toString());

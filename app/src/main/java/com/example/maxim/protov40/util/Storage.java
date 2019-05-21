@@ -15,6 +15,7 @@ public class Storage {
         String folderKey = database.child("users").child(key).child("folders").push().getKey();
         database.child("users").child(key).child("folders").child(folderKey).setValue(folder);
         folder.setId(folderKey);
+        folder.getTodos().add(new ToDo(" ", "", ""));
         Session.getINSTANCE().getUser().getFolders().add(folder);
     }
 
