@@ -84,7 +84,13 @@ public class TodoListFragment extends Fragment implements View.OnClickListener, 
                     case 0:
                         Session.getINSTANCE().setTodoPosition(position);
                         TodoFragment fragment = new TodoFragment();
+                        ToDo toDo = Session.getINSTANCE().getUser().getFolders().get(Session.getINSTANCE().getFolderPosition()).getTodos().get(position);
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        /*Bundle bundle = new Bundle();
+                        bundle.putString("name", toDo.getName());
+                        bundle.putString("text", toDo.getText());
+                        bundle.putString("data", toDo.getData());
+                        fragment.setArguments(bundle);*/
                         transaction.replace(R.id.frame, fragment);
                         transaction.commit();
                         break;
@@ -126,6 +132,7 @@ public class TodoListFragment extends Fragment implements View.OnClickListener, 
                 CreateTodoDialogFragment dialogFragment = new CreateTodoDialogFragment();
                 dialogFragment.setmListener(this);
                 dialogFragment.show(getFragmentManager(), "1");
+                break;
         }
     }
 
@@ -135,8 +142,9 @@ public class TodoListFragment extends Fragment implements View.OnClickListener, 
         EditText text = (EditText) dialog.getDialog().findViewById(R.id.todo_text_edit);
         EditText data = (EditText) dialog.getDialog().findViewById(R.id.todo_data_edit);
         if (!(name.getText().toString().equals(" ") && text.getText().toString().equals(" ") && data.getText().toString().equals(" "))) {
-            Storage.getINSTANCE().createTodo(new ToDo(name.getText().toString(), text.getText().toString()
-                    , data.getText().toString()), Session.getINSTANCE().getFolderPosition());
+            ToDo todo = new ToDo(name.getText().toString(), text.getText().toString()
+                    , data.getText().toString());
+            Storage.getINSTANCE().createTodo(todo, Session.getINSTANCE().getFolderPosition());
             todoList.add(name.getText().toString());
             adapter.notifyDataSetChanged();
         }

@@ -24,13 +24,13 @@
         android:text="name"
         android:gravity="center"/>
 
-    <TextView
+    <me.biubiubiu.justifytext.library.JustifyTextView
         android:id="@+id/todo_text"
         style="@style/TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="text"
-        android:gravity="center"
+        android:gravity="fill_horizontal"
         app:layout_constraintTop_toBottomOf="@+id/todo_name" />
 
     <TextView
