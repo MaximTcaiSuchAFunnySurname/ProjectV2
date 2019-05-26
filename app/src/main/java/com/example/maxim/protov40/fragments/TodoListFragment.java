@@ -53,7 +53,7 @@ public class TodoListFragment extends Fragment implements View.OnClickListener, 
         createTodo = (Button) view.findViewById(R.id.create_todo);
         back = (Button) view.findViewById(R.id.back_button1);
         todoList = new ArrayList<>();
-        if(Session.getINSTANCE().getUser()
+        if (Session.getINSTANCE().getUser()
                 .getFolders().get(Session.getINSTANCE().getFolderPosition()).getTodos() != null) {
             for (ToDo elem : Session.getINSTANCE().getUser()
                     .getFolders().get(Session.getINSTANCE().getFolderPosition()).getTodos()

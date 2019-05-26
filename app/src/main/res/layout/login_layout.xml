@@ -67,7 +67,6 @@
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_btn"
-
             android:layout_marginTop="0dp"
             android:text="@string/signup_btn" />
     </RelativeLayout>

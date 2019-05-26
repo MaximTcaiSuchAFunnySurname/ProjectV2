@@ -140,8 +140,8 @@ public class LogInFragment extends Fragment implements View.OnClickListener, ILo
             if (((HashMap<String,HashMap>)map.get(elem)).get("todos") != null) {
                 for (Object todoElem : ((HashMap<String, HashMap>) map.get(elem)).get("todos").keySet()) {
                     ToDo todo = new ToDo((String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("name"),
-                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("disc"),
-                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("time"));
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("text"),
+                            (String) ((HashMap)((HashMap<String, HashMap>)map.get(elem)).get("todos").get(todoElem)).get("data"));
                     todos.add(todo);
                 }
             }
