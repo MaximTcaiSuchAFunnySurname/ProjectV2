@@ -3,34 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout
-    android:id="@+id/rl_button_todo"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/todo_data"
-    android:gravity="center">
-    <Button
-        android:id="@+id/back_button0"
-        style="@style/ButtonStyle"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/rl_button_todo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="back"/>
-</RelativeLayout>>
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/todo_data">
+
+        <Button
+            android:id="@+id/back_button0"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="back" />
+    </RelativeLayout>
+    >
+
     <TextView
         android:id="@+id/todo_name"
         style="@style/LoginStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="name"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="name" />
 
     <me.biubiubiu.justifytext.library.JustifyTextView
         android:id="@+id/todo_text"
         style="@style/TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="text"
         android:gravity="fill_horizontal"
+        android:text="text"
         app:layout_constraintTop_toBottomOf="@+id/todo_name" />
 
     <TextView
@@ -38,8 +42,8 @@
         style="@style/DeadlineStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="data"
         android:gravity="center"
+        android:text="data"
         app:layout_constraintTop_toBottomOf="@+id/todo_text" />
 
 </android.support.constraint.ConstraintLayout>
