@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ProtoV40</string>
+    <string name="login_title">LOGIN</string>
+    <string name="login_textview">username</string>
+    <string name="password_textview">password</string>
+    <string name="login_btn">Log in</string>
+    <string name="signup_btn">Sign up</string>
+    <string name="create_btn">Create</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="create_folder_title">Folder create</string>
+    <string name="create_todo_title">Todo create</string>
+    <string name="todo_name">NAME: </string>
+    <string name="todo_text">TEXT: </string>
+    <string name="todo_data">DEADLINE:   DD/MM/YY </string>
+
+
+</resources>

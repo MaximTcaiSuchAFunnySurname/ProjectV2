@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:text="@string/login_title"
+        style="@style/LoginStyle"
+        app:layout_constraintBottom_toTopOf="@+id/lledittext"
+        android:gravity="center"
+        />
+
+    <RelativeLayout
+        android:id="@+id/lledittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/llbtn">
+
+        <EditText
+            android:id="@+id/login_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_textview"
+            android:autofillHints="no"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="48dp"/>
+
+        <EditText
+            android:id="@+id/password_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_textview"
+            android:autofillHints="password"
+            android:inputType="textPassword"
+            android:layout_below="@+id/login_edit"
+            android:gravity="center_horizontal"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/llbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/lledittext">
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:text="@string/login_btn"
+            android:layout_marginTop="48dp"
+            style="@style/ButtonStyle"/>
+
+        <Button
+            android:id="@+id/signup_btn"
+            style="@style/ButtonStyle"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_btn"
+            android:layout_marginTop="0dp"
+            android:text="@string/signup_btn" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
